@@ -6,6 +6,12 @@
 @import "base/_mixins";
 @import "base/_global";
 @import "modules/_sprite.css";
-@import "modules/testing.css";
+@import "modules/_wrapper";
+@import "modules/_player";
+@import "modules/_button";
+@import "modules/_dice";
+@import "modules/_player";
+@import "modules/_winner";
+
 
 /* testing-comment */

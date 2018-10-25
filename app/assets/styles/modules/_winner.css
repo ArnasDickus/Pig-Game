@@ -1,0 +1,7 @@
+.winner{
+    background-color: #f7f7f7;
+
+    .player__name{
+        font-weight: 300; color: #EB4D4D;
+    } 
+}

@@ -1,0 +1,34 @@
+.button{
+    position: absolute;
+    width: 200px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #555;
+    background: none;
+    border: none;
+    font-family: Lato;
+    font-size: 20px;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-weight: 300;
+    transition: background-color 0.3s, color 0.3s;
+
+    &:hover{
+        font-weight: 600;
+    }
+    &:hover i {
+        margin-right: 20px;
+    }
+    &:focus{
+        outline: none;
+    }
+    &--new{
+        top: 45px;
+    }
+    &--roll{
+        top: 403px;
+    }
+    &--hold{
+        top: 467px;
+    }
+} 

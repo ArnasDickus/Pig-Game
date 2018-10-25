@@ -3,7 +3,7 @@ import $ from "jquery";
 import 'bootstrap';
 
 
-import Testing from "./modules/testing.js";
+import PigGame from "./modules/PigGame.js";
 
-let testing = new Testing();
+let pigGame = new PigGame();
 // Testing-comments
