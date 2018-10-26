@@ -20,7 +20,7 @@ class PigGame {
 
     let scores = [0,0];
     let roundScore = 0;
-    let activePlayer = 1;
+    let activePlayer = 0;
 
     document.querySelector(".dice").style.display = 'none';
 
@@ -30,6 +30,7 @@ class PigGame {
       document.getElementById('current-1').textContent = '0';
   
     document.querySelector(".button--roll").addEventListener('click', function(){
+      
       // 1.Random Number
         let dice = Math.floor(Math.random() * 6) + 1;
 
@@ -39,6 +40,26 @@ class PigGame {
           diceDOM.src = './../../assets/images/dice-' + dice + ".png";
 
         // 3.Update the round score if the rolled nuber was NOT a 1
+        if(dice !== 1){
+          // Add Score
+          roundScore += dice;
+          document.querySelector('#current-' + activePlayer).textContent = roundScore;
+        }else{
+          // Next Player
+          activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+          roundScore = 0;
+
+          document.getElementById('current-0').textContent = '0';
+          document.getElementById('current-1').textContent = '0';
+
+          
+          // document.querySelector('.player__0-panel').classList.remove('player--active');
+          // document.querySelector('.player__1-panel').classList.add('player--active');
+
+          document.querySelector('.player__0-panel').classList.toggle('player--active');
+          document.querySelector('.player__1-panel').classList.toggle('player--active');
+
+        }
     });
 
   }

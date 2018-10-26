@@ -17029,7 +17029,7 @@ function () {
     value: function pigGame() {
       var scores = [0, 0];
       var roundScore = 0;
-      var activePlayer = 1;
+      var activePlayer = 0;
       document.querySelector(".dice").style.display = 'none';
       document.getElementById('score-0').textContent = '0';
       document.getElementById('score-1').textContent = '0';
@@ -17042,6 +17042,22 @@ function () {
         var diceDOM = document.querySelector('.dice');
         diceDOM.style.display = "block";
         diceDOM.src = './../../assets/images/dice-' + dice + ".png"; // 3.Update the round score if the rolled nuber was NOT a 1
+
+        if (dice !== 1) {
+          // Add Score
+          roundScore += dice;
+          document.querySelector('#current-' + activePlayer).textContent = roundScore;
+        } else {
+          // Next Player
+          activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+          roundScore = 0;
+          document.getElementById('current-0').textContent = '0';
+          document.getElementById('current-1').textContent = '0'; // document.querySelector('.player__0-panel').classList.remove('player--active');
+          // document.querySelector('.player__1-panel').classList.add('player--active');
+
+          document.querySelector('.player__0-panel').classList.toggle('player--active');
+          document.querySelector('.player__1-panel').classList.toggle('player--active');
+        }
       });
     }
   }]);
