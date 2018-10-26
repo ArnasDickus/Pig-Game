@@ -17029,18 +17029,28 @@ function () {
     value: function pigGame() {
       var scores = [0, 0];
       var roundScore = 0;
-      var activePlayer = 0;
-      var dice = Math.floor(Math.random() * 6) + 1;
-      document.querySelector('#current-' + activePlayer).textContent = dice; // document.querySelector('#current-' + activePlayer).innerHTML = '<em>' + dice + "<em>";
-
-      var x = document.querySelector('#score-0').textContent;
-      console.log(x);
+      var activePlayer = 1;
       document.querySelector(".dice").style.display = 'none';
+      document.getElementById('score-0').textContent = '0';
+      document.getElementById('score-1').textContent = '0';
+      document.getElementById('current-0').textContent = '0';
+      document.getElementById('current-1').textContent = '0';
+      document.querySelector(".button--roll").addEventListener('click', function () {
+        // 1.Random Number
+        var dice = Math.floor(Math.random() * 6) + 1; // 2.Display the Result
+
+        var diceDOM = document.querySelector('.dice');
+        diceDOM.style.display = "block";
+        diceDOM.src = './../../assets/images/dice-' + dice + ".png"; // 3.Update the round score if the rolled nuber was NOT a 1
+      });
     }
   }]);
 
   return PigGame;
-}();
+}(); //  document.querySelector('#current-' + activePlayer).textContent = dice;
+// document.querySelector('#current-' + activePlayer).innerHTML = '<em>' + dice + "<em>";
+// let x = document.querySelector('#score-0').textContent;
+
 
 /* harmony default export */ __webpack_exports__["default"] = (PigGame);
 
