@@ -17027,14 +17027,8 @@ function () {
   _createClass(PigGame, [{
     key: "pigGame",
     value: function pigGame() {
-      var scores = [0, 0];
-      var roundScore = 0;
-      var activePlayer = 0;
-      document.querySelector(".dice").style.display = 'none';
-      document.getElementById('score-0').textContent = '0';
-      document.getElementById('score-1').textContent = '0';
-      document.getElementById('current-0').textContent = '0';
-      document.getElementById('current-1').textContent = '0';
+      var scores, roundScore, activePlayer;
+      init();
       document.querySelector(".button--roll").addEventListener('click', function () {
         // 1.Random Number
         var dice = Math.floor(Math.random() * 6) + 1; // 2.Display the Result
@@ -17068,6 +17062,7 @@ function () {
           nextPlayer();
         }
       });
+      document.querySelector(".button--new").addEventListener('click', init);
 
       function nextPlayer() {
         // Next Player
@@ -17077,6 +17072,24 @@ function () {
         document.getElementById('current-1').textContent = '0';
         document.querySelector('.player__0-panel').classList.toggle('player--active');
         document.querySelector('.player__1-panel').classList.toggle('player--active');
+      }
+
+      function init() {
+        scores = [0, 0];
+        activePlayer = 0;
+        roundScore = 0;
+        document.querySelector(".dice").style.display = 'none';
+        document.getElementById('score-0').textContent = '0';
+        document.getElementById('score-1').textContent = '0';
+        document.getElementById('current-0').textContent = '0';
+        document.getElementById('current-1').textContent = '0';
+        document.getElementById('name-0').textContent = "Player 1";
+        document.getElementById('name-1').textContent = "Player 2";
+        document.querySelector('.player__0-panel').classList.remove('winner');
+        document.querySelector('.player__1-panel').classList.remove('winner');
+        document.querySelector('.player__0-panel').classList.remove('active');
+        document.querySelector('.player__0-panel').classList.add('active');
+        document.querySelector('.player__1-panel').classList.remove('active');
       }
     }
   }]);

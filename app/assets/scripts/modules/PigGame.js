@@ -17,17 +17,11 @@ class PigGame {
     this.pigGame();
   }
   pigGame(){
+    let scores, roundScore, activePlayer;
 
-    let scores = [0,0];
-    let roundScore = 0;
-    let activePlayer = 0;
+    init();
 
-    document.querySelector(".dice").style.display = 'none';
-
-      document.getElementById('score-0').textContent = '0';
-      document.getElementById('score-1').textContent = '0';
-      document.getElementById('current-0').textContent = '0';
-      document.getElementById('current-1').textContent = '0';
+    
   
     document.querySelector(".button--roll").addEventListener('click', function(){
       
@@ -73,6 +67,9 @@ class PigGame {
         
     });
 
+    document.querySelector(".button--new").addEventListener('click', init);
+    
+
     function nextPlayer(){
       // Next Player
           activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
@@ -83,6 +80,31 @@ class PigGame {
 
           document.querySelector('.player__0-panel').classList.toggle('player--active');
           document.querySelector('.player__1-panel').classList.toggle('player--active');
+    }
+
+    function init(){
+  
+      scores = [0, 0];
+      activePlayer = 0;
+      roundScore = 0;
+
+    document.querySelector(".dice").style.display = 'none';
+
+    document.getElementById('score-0').textContent = '0';
+    document.getElementById('score-1').textContent = '0';
+    document.getElementById('current-0').textContent = '0';
+    document.getElementById('current-1').textContent = '0';
+    document.getElementById('name-0').textContent = "Player 1";
+    document.getElementById('name-1').textContent = "Player 2";
+    
+    document.querySelector('.player__0-panel').classList.remove('winner');
+    document.querySelector('.player__1-panel').classList.remove('winner');
+    document.querySelector('.player__0-panel').classList.remove('active');
+    document.querySelector('.player__0-panel').classList.add('active');
+    document.querySelector('.player__1-panel').classList.remove('active');
+
+
+
     }
   }
 
