@@ -17049,24 +17049,40 @@ function () {
           document.querySelector('#current-' + activePlayer).textContent = roundScore;
         } else {
           // Next Player
-          activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
-          roundScore = 0;
-          document.getElementById('current-0').textContent = '0';
-          document.getElementById('current-1').textContent = '0'; // document.querySelector('.player__0-panel').classList.remove('player--active');
-          // document.querySelector('.player__1-panel').classList.add('player--active');
-
-          document.querySelector('.player__0-panel').classList.toggle('player--active');
-          document.querySelector('.player__1-panel').classList.toggle('player--active');
+          nextPlayer();
         }
       });
+      document.querySelector('.button--hold').addEventListener('click', function () {
+        // Add CURRENT score to GLOBAL score.
+        scores[activePlayer] += roundScore; // Update the UI
+
+        document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer]; // Check if player won the game
+
+        if (scores[activePlayer] >= 20) {
+          document.querySelector('#name-' + activePlayer).textContent = "Winner";
+          document.querySelector('.dice').style.display = "none";
+          document.querySelector('.player__' + activePlayer + '-panel').classList.add('winner');
+          document.querySelector('.player__' + activePlayer + '-panel').classList.remove('player--active');
+        } else {
+          // Next Player
+          nextPlayer();
+        }
+      });
+
+      function nextPlayer() {
+        // Next Player
+        activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+        roundScore = 0;
+        document.getElementById('current-0').textContent = '0';
+        document.getElementById('current-1').textContent = '0';
+        document.querySelector('.player__0-panel').classList.toggle('player--active');
+        document.querySelector('.player__1-panel').classList.toggle('player--active');
+      }
     }
   }]);
 
   return PigGame;
-}(); //  document.querySelector('#current-' + activePlayer).textContent = dice;
-// document.querySelector('#current-' + activePlayer).innerHTML = '<em>' + dice + "<em>";
-// let x = document.querySelector('#score-0').textContent;
-
+}();
 
 /* harmony default export */ __webpack_exports__["default"] = (PigGame);
 
