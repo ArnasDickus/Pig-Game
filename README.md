@@ -3,6 +3,10 @@
 Pig Game not exactly a code along, i had to slightly rewrite css, and html to fullfill my BEM methodology requirments.
 Pig Game created with the help of udemy tutorial The Complete JavaScript Course 2018: Build Real Projects!
 
+```
+This game was meant for tablets and higher 756px+. It's not supported for mobile users
+```
+
 
 
 Live version will be availlable as soon as the project is finished
