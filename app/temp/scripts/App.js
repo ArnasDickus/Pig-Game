@@ -95,11 +95,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
 /* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(bootstrap__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _modules_PigGame_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
+/* harmony import */ var _modules_InstructionModal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
 // jquery is used for bootstrap
 
 
 
-var pigGame = new _modules_PigGame_js__WEBPACK_IMPORTED_MODULE_2__["default"](); // Testing-comments
+
+var pigGame = new _modules_PigGame_js__WEBPACK_IMPORTED_MODULE_2__["default"]();
+var instructionModal = new _modules_InstructionModal__WEBPACK_IMPORTED_MODULE_3__["default"](); // Testing-comments
 
 /***/ }),
 /* 1 */
@@ -16994,15 +16997,11 @@ module.exports = g;
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-// This is file is for testing application only. You can safely delete it.
 
 /*
 GAME RULES:
@@ -17013,8 +17012,8 @@ GAME RULES:
 - The player can choose to 'Hold', which means that his ROUND score gets added to his GLBAL score. After that, it's the next player's turn
 - The first player to reach 100 points on GLOBAL score wins the game
 
-*/
 
+*/
 var PigGame =
 /*#__PURE__*/
 function () {
@@ -17027,42 +17026,85 @@ function () {
   _createClass(PigGame, [{
     key: "pigGame",
     value: function pigGame() {
-      var scores, roundScore, activePlayer;
+      var scores,
+          roundScore,
+          input,
+          activePlayer,
+          gamePlaying = true;
       init();
+      var lastDice;
       document.querySelector(".button--roll").addEventListener('click', function () {
-        // 1.Random Number
-        var dice = Math.floor(Math.random() * 6) + 1; // 2.Display the Result
+        if (gamePlaying == true) {
+          // 1.Random Number
+          var dice1 = Math.floor(Math.random() * 6) + 1;
+          var dice2 = Math.floor(Math.random() * 6) + 1; // 2.Display the Result
 
-        var diceDOM = document.querySelector('.dice');
-        diceDOM.style.display = "block";
-        diceDOM.src = './../../assets/images/dice-' + dice + ".png"; // 3.Update the round score if the rolled nuber was NOT a 1
+          document.getElementById("dice-1").style.display = "block";
+          document.getElementById("dice-2").style.display = "block";
+          document.getElementById("dice-1").src = './../../assets/images/dice-' + dice1 + ".png";
+          document.getElementById("dice-2").src = './../../assets/images/dice-' + dice2 + ".png"; // 3.Update the round score if the rolled nuber was NOT a 1 and didn't repeat 6
 
-        if (dice !== 1) {
-          // Add Score
-          roundScore += dice;
-          document.querySelector('#current-' + activePlayer).textContent = roundScore;
-        } else {
-          // Next Player
-          nextPlayer();
+          if (dice1 !== 1 && dice2 !== 1) {
+            //Add score
+            roundScore += dice1 + dice2;
+            document.querySelector('#current-' + activePlayer).textContent = roundScore;
+          } else {
+            //Next player
+            nextPlayer();
+          } //   if(dice === 6  ){
+          //     // Player Losses scores
+          //     // && lastDice === 6
+          //     scores[activePlayer] = 0;
+          //     document.querySelector('#score-' + activePlayer).textContent = 0;
+          //     nextPlayer();
+          //   }else if (dice !== 1){
+          //     // Add scores
+          //     roundScore += dice;
+          //     document.querySelector("#current-" + activePlayer).textContent = roundScore;
+          //   }else{
+          //     // Next player
+          //     nextPlayer();
+          //   }
+          // lastDice = dice;  
+
         }
       });
       document.querySelector('.button--hold').addEventListener('click', function () {
-        // Add CURRENT score to GLOBAL score.
-        scores[activePlayer] += roundScore; // Update the UI
+        if (gamePlaying == true) {
+          // Add CURRENT score to GLOBAL score.
+          scores[activePlayer] += roundScore; // Update the UI
 
-        document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer]; // Check if player won the game
+          document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer]; // Undefined, 0, null or "" are COERCED to false
+          // Anything else is COERCED to true;
 
-        if (scores[activePlayer] >= 20) {
-          document.querySelector('#name-' + activePlayer).textContent = "Winner";
-          document.querySelector('.dice').style.display = "none";
-          document.querySelector('.player__' + activePlayer + '-panel').classList.add('winner');
-          document.querySelector('.player__' + activePlayer + '-panel').classList.remove('player--active');
-        } else {
-          // Next Player
-          nextPlayer();
+          var winningScore; // let input = document.querySelector(".final-score").value;
+
+          var _input = submit();
+
+          console.log(_input);
+
+          if (submit()) {
+            winningScore = _input;
+          } else {
+            winningScore = 100;
+          } // Check if player won the game
+
+
+          if (scores[activePlayer] >= winningScore) {
+            document.querySelector('#name-' + activePlayer).textContent = "Winner";
+            document.getElementById('dice-1').style.display = "none";
+            document.getElementById('dice-2').style.display = "none";
+            document.querySelector('.player__' + activePlayer + '-panel').classList.add('winner');
+            document.querySelector('.player__' + activePlayer + '-panel').classList.remove('player--active');
+            gamePlaying = false;
+          } else {
+            // Next Player
+            nextPlayer();
+          }
         }
       });
       document.querySelector(".button--new").addEventListener('click', init);
+      document.querySelector(".button--submit").addEventListener('click', submit);
 
       function nextPlayer() {
         // Next Player
@@ -17072,13 +17114,16 @@ function () {
         document.getElementById('current-1').textContent = '0';
         document.querySelector('.player__0-panel').classList.toggle('player--active');
         document.querySelector('.player__1-panel').classList.toggle('player--active');
+        document.getElementById('dice-1').style.display = "none";
+        document.getElementById('dice-2').style.display = "none";
       }
 
       function init() {
         scores = [0, 0];
         activePlayer = 0;
         roundScore = 0;
-        document.querySelector(".dice").style.display = 'none';
+        document.getElementById('dice-1').style.display = "none";
+        document.getElementById('dice-2').style.display = "none";
         document.getElementById('score-0').textContent = '0';
         document.getElementById('score-1').textContent = '0';
         document.getElementById('current-0').textContent = '0';
@@ -17087,9 +17132,14 @@ function () {
         document.getElementById('name-1').textContent = "Player 2";
         document.querySelector('.player__0-panel').classList.remove('winner');
         document.querySelector('.player__1-panel').classList.remove('winner');
-        document.querySelector('.player__0-panel').classList.remove('active');
-        document.querySelector('.player__0-panel').classList.add('active');
-        document.querySelector('.player__1-panel').classList.remove('active');
+        document.querySelector('.player__0-panel').classList.remove('player--active');
+        document.querySelector('.player__0-panel').classList.add('player--active');
+        document.querySelector('.player__1-panel').classList.remove('player--active');
+        gamePlaying = true;
+      }
+
+      function submit() {
+        return document.querySelector(".final-score").value;
       }
     }
   }]);
@@ -17098,6 +17148,69 @@ function () {
 }();
 
 /* harmony default export */ __webpack_exports__["default"] = (PigGame);
+
+/***/ }),
+/* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+var InstructionModal =
+/*#__PURE__*/
+function () {
+  function InstructionModal() {
+    _classCallCheck(this, InstructionModal);
+
+    this.openInstructionModal = jquery__WEBPACK_IMPORTED_MODULE_0___default()(".open-instruction-modal");
+    this.instructionModal = jquery__WEBPACK_IMPORTED_MODULE_0___default()(".instruction-modal");
+    this.instructionModalClose = jquery__WEBPACK_IMPORTED_MODULE_0___default()(".instruction-modal__close");
+    this.events();
+  }
+
+  _createClass(InstructionModal, [{
+    key: "events",
+    value: function events() {
+      // Clicking the open Modal openModalButton
+      this.openInstructionModal.click(this.openModal.bind(this)); // Clicking the x close modal openModalButton
+
+      this.instructionModalClose.click(this.closeModal.bind(this)); // pushes any key
+
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).keyup(this.keyPressHandler.bind(this));
+    }
+  }, {
+    key: "keyPressHandler",
+    value: function keyPressHandler(e) {
+      if (e.keyCode == 27) {
+        this.closeModal();
+      }
+    }
+  }, {
+    key: "openModal",
+    value: function openModal() {
+      this.instructionModal.addClass("instruction-modal--is-visible");
+      return false;
+    }
+  }, {
+    key: "closeModal",
+    value: function closeModal() {
+      this.instructionModal.removeClass("instruction-modal--is-visible");
+    }
+  }]);
+
+  return InstructionModal;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (InstructionModal);
 
 /***/ })
 /******/ ]);

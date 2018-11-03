@@ -31,7 +31,7 @@
     @mixin-content;
   }
 }
-
+/* Add in floated elements. Clears floats without additional div */
 @define-mixin clearfix {
   &::after {
     content: "";

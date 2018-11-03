@@ -31,4 +31,10 @@
     &--hold{
         top: 467px;
     }
+    &--instructions{
+        top: 530px;
+    }
+    &--submit{
+        left: 66%;
+    }
 } 

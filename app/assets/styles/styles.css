@@ -12,6 +12,7 @@
 @import "modules/_dice";
 @import "modules/_player";
 @import "modules/_winner";
-
+@import "modules/_instruction-modal";
+@import "modules/_generic-content-container";
 
 /* testing-comment */
