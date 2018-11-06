@@ -20,7 +20,6 @@ class PigGame {
     let scores, roundScore, input, activePlayer, gamePlaying = true;
     init();
 
-    let lastDice;
 
 
     document.querySelector(".button--roll").addEventListener('click', function(){
@@ -45,68 +44,17 @@ class PigGame {
             //Next player
             nextPlayer();
         }
-
-      //   if(dice === 6  ){
-      //     // Player Losses scores
-      //     // && lastDice === 6
-      //     scores[activePlayer] = 0;
-      //     document.querySelector('#score-' + activePlayer).textContent = 0;
-
-      //     nextPlayer();
-      //   }else if (dice !== 1){
-      //     // Add scores
-      //     roundScore += dice;
-      //     document.querySelector("#current-" + activePlayer).textContent = roundScore;
-      //   }else{
-      //     // Next player
-      //     nextPlayer();
-      //   }
-      // lastDice = dice;  
       }     
     });
 
-    document.querySelector('.button--hold').addEventListener('click', function(){
-       if(gamePlaying == true){
-        // Add CURRENT score to GLOBAL score.
-        scores[activePlayer] += roundScore;
-
-        // Update the UI
-        document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
+    document.querySelector('.button--hold').addEventListener('click', hold)
+    
+    
       
-        
-        
-        // Undefined, 0, null or "" are COERCED to false
-        // Anything else is COERCED to true;
-          let winningScore;
-          // let input = document.querySelector(".final-score").value;
-           let input = submit();
-           console.log(input);
-
-             if(submit()){
-                winningScore = input;
-
-              }else{
-                winningScore = 100;
-              }
-        // Check if player won the game
-        if(scores[activePlayer] >= winningScore){
-          document.querySelector('#name-' + activePlayer).textContent = "Winner";
-          document.getElementById('dice-1').style.display = "none";
-          document.getElementById('dice-2').style.display = "none";
-          document.querySelector('.player__' + activePlayer + '-panel').classList.add('winner');
-          document.querySelector('.player__' + activePlayer + '-panel').classList.remove('player--active');
-
-          gamePlaying = false;
-        }else{
-        // Next Player
-        nextPlayer();
-        }
-       }    
-    });
 
     document.querySelector(".button--new").addEventListener('click', init);
     
-    document.querySelector(".button--submit").addEventListener('click', submit);
+    // document.querySelector(".button--submit").addEventListener('click', submit);
 
     function nextPlayer(){
       // Next Player
@@ -148,9 +96,50 @@ class PigGame {
 
 
     }
-     function submit(){
-        return document.querySelector(".final-score").value;
-     }
+    function hold(){
+      if(gamePlaying == true){
+        // Add CURRENT score to GLOBAL score.
+        scores[activePlayer] += roundScore;
+
+        // Update the UI
+        document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
+    
+          
+          let winningScore;
+
+
+          
+
+             if(winningScore){
+                winningScore = input;
+
+              }else{
+                winningScore = 100;
+              }
+        // Check if player won the game
+        if(scores[activePlayer] >= winningScore){
+          document.querySelector('#name-' + activePlayer).textContent = "Winner";
+          document.getElementById('dice-1').style.display = "none";
+          document.getElementById('dice-2').style.display = "none";
+          document.querySelector('.player__' + activePlayer + '-panel').classList.add('winner');
+          document.querySelector('.player__' + activePlayer + '-panel').classList.remove('player--active');
+
+          gamePlaying = false;
+        }else{
+        // Next Player
+        nextPlayer();
+        }
+       }    
+    }
+    // function submit(){
+    //   let finalscore = document.querySelector(".final-score").value;
+    //   console.log(finalscore);
+    //    // Stops from submiting
+       
+    //   return finalscore;
+
+     
+    // }
   }
 
 }
