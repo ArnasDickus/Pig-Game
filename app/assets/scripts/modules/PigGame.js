@@ -107,9 +107,6 @@ class PigGame {
           
           let winningScore;
 
-
-          
-
              if(winningScore){
                 winningScore = input;
 
