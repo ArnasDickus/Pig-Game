@@ -9,7 +9,7 @@ This game was meant for tablets and higher 756px+. It's not supported for mobile
 
 
 
-[Live version](https://arnasdickus.github.io/Pig-Game/) will be availlable as soon as the project is finished
+Currently the build is falling
 
 ## Getting Started
 
