@@ -32,8 +32,8 @@ class PigGame {
         document.getElementById("dice-1").style.display = "block";
         document.getElementById("dice-2").style.display = "block";
    
-          document.getElementById("dice-1").src = '/../../assets/images/dice-' + dice1 + ".png";
-           document.getElementById("dice-2").src = '/../../assets/images/dice-' + dice2 + ".png";
+          document.getElementById("dice-1").src = '/../Pig-Game/assets/images/dice-' + dice1 + ".png";
+           document.getElementById("dice-2").src = '/../Pig-Game/assets/images/dice-' + dice2 + ".png";
 
         // 3.Update the round score if the rolled nuber was NOT a 1 and didn't repeat 6
         if (dice1 !== 1 && dice2 !== 1) {
