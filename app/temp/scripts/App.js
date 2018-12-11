@@ -94,15 +94,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
 /* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(bootstrap__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _modules_PigGame_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
-/* harmony import */ var _modules_InstructionModal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
+/* harmony import */ var _models_PigGame_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
+/* harmony import */ var _models_InstructionModal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(7);
 // jquery is used for bootstrap
 
 
 
 
-var pigGame = new _modules_PigGame_js__WEBPACK_IMPORTED_MODULE_2__["default"]();
-var instructionModal = new _modules_InstructionModal__WEBPACK_IMPORTED_MODULE_3__["default"](); // Testing-comments
+var pigGame = new _models_PigGame_js__WEBPACK_IMPORTED_MODULE_2__["default"]();
+var instructionModal = new _models_InstructionModal__WEBPACK_IMPORTED_MODULE_3__["default"](); // Testing-comments
 
 /***/ }),
 /* 1 */
@@ -16997,6 +16997,7 @@ module.exports = g;
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -17014,6 +17015,8 @@ GAME RULES:
 
 
 */
+
+
 var PigGame =
 /*#__PURE__*/
 function () {
@@ -17032,20 +17035,23 @@ function () {
           activePlayer,
           gamePlaying = true;
       init();
-      document.querySelector(".button--roll").addEventListener('click', function () {
+      _base__WEBPACK_IMPORTED_MODULE_0__["elements"].buttonRoll.addEventListener('click', function () {
         if (gamePlaying == true) {
           // 1.Random Number
           var dice1 = Math.floor(Math.random() * 6) + 1;
           var dice2 = Math.floor(Math.random() * 6) + 1; // 2.Display the Result
 
-          document.getElementById("dice-1").style.display = "block";
-          document.getElementById("dice-2").style.display = "block";
-          document.getElementById("dice-1").src = '/../Pig-Game/assets/images/dice-' + dice1 + ".png";
-          document.getElementById("dice-2").src = '/../Pig-Game/assets/images/dice-' + dice2 + ".png"; // 3.Update the round score if the rolled nuber was NOT a 1 and didn't repeat 6
+          _base__WEBPACK_IMPORTED_MODULE_0__["elements"].dice1.style.display = "block";
+          _base__WEBPACK_IMPORTED_MODULE_0__["elements"].dice2.style.display = "block";
+          _base__WEBPACK_IMPORTED_MODULE_0__["elements"].dice1.src = '/../Pig-Game/assets/images/dice-' + dice1 + ".png";
+          _base__WEBPACK_IMPORTED_MODULE_0__["elements"].dice2.src = '/../Pig-Game/assets/images/dice-' + dice2 + ".png"; // 3.Update the round score if the rolled nuber was NOT a 1 and didn't repeat 6
 
           if (dice1 !== 1 && dice2 !== 1) {
             //Add score
-            roundScore += dice1 + dice2;
+            roundScore += dice1 + dice2; ////////////////////////////////////////////////////////////////////////
+            // WHY IS THIS NOT WORKING but below works?
+            // (elements.current + activePlayer).textContent = roundScore;
+
             document.querySelector('#current-' + activePlayer).textContent = roundScore;
           } else {
             //Next player
@@ -17053,38 +17059,38 @@ function () {
           }
         }
       });
-      document.querySelector('.button--hold').addEventListener('click', hold);
-      document.querySelector(".button--new").addEventListener('click', init); // document.querySelector(".button--submit").addEventListener('click', submit);
+      _base__WEBPACK_IMPORTED_MODULE_0__["elements"].buttonHold.addEventListener('click', hold);
+      _base__WEBPACK_IMPORTED_MODULE_0__["elements"].buttonNew.addEventListener('click', init); // document.querySelector(".button--submit").addEventListener('click', submit);
 
       function nextPlayer() {
         // Next Player
         activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
         roundScore = 0;
-        document.getElementById('current-0').textContent = '0';
-        document.getElementById('current-1').textContent = '0';
-        document.querySelector('.player__0-panel').classList.toggle('player--active');
-        document.querySelector('.player__1-panel').classList.toggle('player--active');
-        document.getElementById('dice-1').style.display = "none";
-        document.getElementById('dice-2').style.display = "none";
+        _base__WEBPACK_IMPORTED_MODULE_0__["elements"].current0.textContent = '0';
+        _base__WEBPACK_IMPORTED_MODULE_0__["elements"].current1.textContent = '0';
+        _base__WEBPACK_IMPORTED_MODULE_0__["elements"].player0Panel.classList.toggle(_base__WEBPACK_IMPORTED_MODULE_0__["elements"].playerActive);
+        _base__WEBPACK_IMPORTED_MODULE_0__["elements"].player1Panel.classList.toggle(_base__WEBPACK_IMPORTED_MODULE_0__["elements"].playerActive);
+        _base__WEBPACK_IMPORTED_MODULE_0__["elements"].dice1.style.display = "none";
+        _base__WEBPACK_IMPORTED_MODULE_0__["elements"].dice2.style.display = "none";
       }
 
       function init() {
         scores = [0, 0];
         activePlayer = 0;
         roundScore = 0;
-        document.getElementById('dice-1').style.display = "none";
-        document.getElementById('dice-2').style.display = "none";
-        document.getElementById('score-0').textContent = '0';
-        document.getElementById('score-1').textContent = '0';
-        document.getElementById('current-0').textContent = '0';
-        document.getElementById('current-1').textContent = '0';
-        document.getElementById('name-0').textContent = "Player 1";
-        document.getElementById('name-1').textContent = "Player 2";
-        document.querySelector('.player__0-panel').classList.remove('winner');
-        document.querySelector('.player__1-panel').classList.remove('winner');
-        document.querySelector('.player__0-panel').classList.remove('player--active');
-        document.querySelector('.player__0-panel').classList.add('player--active');
-        document.querySelector('.player__1-panel').classList.remove('player--active');
+        _base__WEBPACK_IMPORTED_MODULE_0__["elements"].dice1.style.display = "none";
+        _base__WEBPACK_IMPORTED_MODULE_0__["elements"].dice2.style.display = "none";
+        _base__WEBPACK_IMPORTED_MODULE_0__["elements"].score0.textContent = '0';
+        _base__WEBPACK_IMPORTED_MODULE_0__["elements"].score1.textContent = '0';
+        _base__WEBPACK_IMPORTED_MODULE_0__["elements"].current0.textContent = '0';
+        _base__WEBPACK_IMPORTED_MODULE_0__["elements"].current1.textContent = '0';
+        _base__WEBPACK_IMPORTED_MODULE_0__["elements"].name0.textContent = "Player 1";
+        _base__WEBPACK_IMPORTED_MODULE_0__["elements"].name1.textContent = "Player 2";
+        _base__WEBPACK_IMPORTED_MODULE_0__["elements"].player0Panel.classList.remove(_base__WEBPACK_IMPORTED_MODULE_0__["elements"].winner);
+        _base__WEBPACK_IMPORTED_MODULE_0__["elements"].player1Panel.classList.remove(_base__WEBPACK_IMPORTED_MODULE_0__["elements"].winnner);
+        _base__WEBPACK_IMPORTED_MODULE_0__["elements"].player0Panel.classList.remove(_base__WEBPACK_IMPORTED_MODULE_0__["elements"].playerActive);
+        _base__WEBPACK_IMPORTED_MODULE_0__["elements"].player0Panel.classList.add(_base__WEBPACK_IMPORTED_MODULE_0__["elements"].playerActive);
+        _base__WEBPACK_IMPORTED_MODULE_0__["elements"].player1Panel.classList.remove(_base__WEBPACK_IMPORTED_MODULE_0__["elements"].playerActive);
         gamePlaying = true;
       }
 
@@ -17105,23 +17111,16 @@ function () {
 
           if (scores[activePlayer] >= winningScore) {
             document.querySelector('#name-' + activePlayer).textContent = "Winner";
-            document.getElementById('dice-1').style.display = "none";
-            document.getElementById('dice-2').style.display = "none";
-            document.querySelector('.player__' + activePlayer + '-panel').classList.add('winner');
-            document.querySelector('.player__' + activePlayer + '-panel').classList.remove('player--active');
+            _base__WEBPACK_IMPORTED_MODULE_0__["elements"].dice1.style.display = "none";
+            _base__WEBPACK_IMPORTED_MODULE_0__["elements"].dice2.style.display = "none";
+            document.querySelector('.player__' + activePlayer + '-panel').classList.add(_base__WEBPACK_IMPORTED_MODULE_0__["elements"].winnner);
+            document.querySelector('.player__' + activePlayer + '-panel').classList.remove(_base__WEBPACK_IMPORTED_MODULE_0__["elements"].playerActive);
             gamePlaying = false;
           } else {
-            // Next Player
             nextPlayer();
           }
         }
-      } // function submit(){
-      //   let finalscore = document.querySelector(".final-score").value;
-      //   console.log(finalscore);
-      //    // Stops from submiting
-      //   return finalscore;
-      // }
-
+      }
     }
   }]);
 
@@ -17132,6 +17131,37 @@ function () {
 
 /***/ }),
 /* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "elements", function() { return elements; });
+var elements = {
+  buttonRoll: document.querySelector(".button--roll"),
+  dice1: document.getElementById("dice-1"),
+  dice2: document.getElementById("dice-2"),
+  // Look for current in Init function.
+  current: document.querySelector('#current-'),
+  buttonHold: document.querySelector('.button--hold'),
+  buttonNew: document.querySelector(".button--new"),
+  current0: document.getElementById('current-0'),
+  current1: document.getElementById('current-1'),
+  player0Panel: document.querySelector('.player__0-panel'),
+  player1Panel: document.querySelector('.player__1-panel'),
+  playerActive: document.querySelector('player--active'),
+  score0: document.getElementById('score-0'),
+  score1: document.getElementById('score-1'),
+  name0: document.getElementById('name-0'),
+  name1: document.getElementById('name-1'),
+  winnner: document.querySelector('winner'),
+  // Look in hold function
+  score: document.querySelector('#score-'),
+  // Look in hold function
+  name: document.querySelector('#name-')
+};
+
+/***/ }),
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

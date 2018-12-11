@@ -3,8 +3,8 @@ import $ from "jquery";
 import 'bootstrap';
 
 
-import PigGame from "./modules/PigGame.js";
-import InstructionModal from "./modules/InstructionModal";
+import PigGame from "./models/PigGame.js";
+import InstructionModal from "./models/InstructionModal";
 
 let pigGame = new PigGame();
 let instructionModal = new InstructionModal();
