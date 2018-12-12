@@ -3,9 +3,12 @@ import $ from "jquery";
 import 'bootstrap';
 
 
-import PigGame from "./models/PigGame.js";
-import InstructionModal from "./models/InstructionModal";
+import PigGame from "./views/PigGame.js";
+import InstructionModal from "./views/InstructionModal";
 
-let pigGame = new PigGame();
+let pigGame = new PigGame;
+
+// pigGame.initialize();
+pigGame.events();
 let instructionModal = new InstructionModal();
 // Testing-comments

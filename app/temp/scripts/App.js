@@ -94,15 +94,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
 /* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(bootstrap__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _models_PigGame_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
-/* harmony import */ var _models_InstructionModal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(7);
+/* harmony import */ var _views_PigGame_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
+/* harmony import */ var _views_InstructionModal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(7);
 // jquery is used for bootstrap
 
 
 
 
-var pigGame = new _models_PigGame_js__WEBPACK_IMPORTED_MODULE_2__["default"]();
-var instructionModal = new _models_InstructionModal__WEBPACK_IMPORTED_MODULE_3__["default"](); // Testing-comments
+var pigGame = new _views_PigGame_js__WEBPACK_IMPORTED_MODULE_2__["default"](); // pigGame.initialize();
+
+pigGame.events();
+var instructionModal = new _views_InstructionModal__WEBPACK_IMPORTED_MODULE_3__["default"](); // Testing-comments
 
 /***/ }),
 /* 1 */
@@ -17023,104 +17025,144 @@ function () {
   function PigGame() {
     _classCallCheck(this, PigGame);
 
-    this.pigGame();
-  }
+    // Properties
+    this.buttonRoll = _base__WEBPACK_IMPORTED_MODULE_0__["elements"].buttonRoll;
+    this.buttonHold = _base__WEBPACK_IMPORTED_MODULE_0__["elements"].buttonHold;
+    this.buttonNew = _base__WEBPACK_IMPORTED_MODULE_0__["elements"].buttonNew;
+    this.dice1 = _base__WEBPACK_IMPORTED_MODULE_0__["elements"].dice1;
+    this.dice2 = _base__WEBPACK_IMPORTED_MODULE_0__["elements"].dice2;
+    this.current0 = _base__WEBPACK_IMPORTED_MODULE_0__["elements"].current0;
+    this.current1 = _base__WEBPACK_IMPORTED_MODULE_0__["elements"].current1;
+    this.player0Panel = _base__WEBPACK_IMPORTED_MODULE_0__["elements"].player0Panel;
+    this.player1Panel = _base__WEBPACK_IMPORTED_MODULE_0__["elements"].player1Panel;
+    this.playerActive = _base__WEBPACK_IMPORTED_MODULE_0__["elements"].playerActive;
+    this.score = _base__WEBPACK_IMPORTED_MODULE_0__["elements"].score;
+    this.score0 = _base__WEBPACK_IMPORTED_MODULE_0__["elements"].score0;
+    this.score1 = _base__WEBPACK_IMPORTED_MODULE_0__["elements"].score1;
+    this.name = _base__WEBPACK_IMPORTED_MODULE_0__["elements"].name;
+    this.name0 = _base__WEBPACK_IMPORTED_MODULE_0__["elements"].name0;
+    this.name1 = _base__WEBPACK_IMPORTED_MODULE_0__["elements"].name1;
+    this.winner = _base__WEBPACK_IMPORTED_MODULE_0__["elements"].winner; // Methods
+    // this.buttonRoll.addEventListener('click', () => this.rollDice());
+    // this.buttonHold.addEventListener('click', () => this.holdButton());
+    // this.buttonNew.addEventListener('click', () => this.initialize());
+    // this.pigGame();
+
+    this.initialize;
+    this.events;
+    this.nextPlayer;
+  } // All events happening  
+
 
   _createClass(PigGame, [{
-    key: "pigGame",
-    value: function pigGame() {
+    key: "events",
+    value: function events() {
+      var _this = this;
+
       var scores,
           roundScore,
           input,
           activePlayer,
           gamePlaying = true;
-      init();
-      _base__WEBPACK_IMPORTED_MODULE_0__["elements"].buttonRoll.addEventListener('click', function () {
-        if (gamePlaying == true) {
-          // 1.Random Number
-          var dice1 = Math.floor(Math.random() * 6) + 1;
-          var dice2 = Math.floor(Math.random() * 6) + 1; // 2.Display the Result
-
-          _base__WEBPACK_IMPORTED_MODULE_0__["elements"].dice1.style.display = "block";
-          _base__WEBPACK_IMPORTED_MODULE_0__["elements"].dice2.style.display = "block";
-          _base__WEBPACK_IMPORTED_MODULE_0__["elements"].dice1.src = '/../Pig-Game/assets/images/dice-' + dice1 + ".png";
-          _base__WEBPACK_IMPORTED_MODULE_0__["elements"].dice2.src = '/../Pig-Game/assets/images/dice-' + dice2 + ".png"; // 3.Update the round score if the rolled nuber was NOT a 1 and didn't repeat 6
-
-          if (dice1 !== 1 && dice2 !== 1) {
-            //Add score
-            roundScore += dice1 + dice2; ////////////////////////////////////////////////////////////////////////
-            // WHY IS THIS NOT WORKING but below works?
-            // (elements.current + activePlayer).textContent = roundScore;
-
-            document.querySelector('#current-' + activePlayer).textContent = roundScore;
-          } else {
-            //Next player
-            nextPlayer();
-          }
-        }
+      this.initialize(scores, activePlayer, roundScore, gamePlaying);
+      this.buttonRoll.addEventListener('click', function () {
+        return _this.rollDice(gamePlaying, roundScore, activePlayer);
       });
-      _base__WEBPACK_IMPORTED_MODULE_0__["elements"].buttonHold.addEventListener('click', hold);
-      _base__WEBPACK_IMPORTED_MODULE_0__["elements"].buttonNew.addEventListener('click', init); // document.querySelector(".button--submit").addEventListener('click', submit);
+      this.buttonHold.addEventListener('click', function () {
+        return _this.holdButton();
+      });
+      this.buttonNew.addEventListener('click', function () {
+        return _this.initialize();
+      });
+    } // Rolling dice Button event listener
 
-      function nextPlayer() {
-        // Next Player
-        activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
-        roundScore = 0;
-        _base__WEBPACK_IMPORTED_MODULE_0__["elements"].current0.textContent = '0';
-        _base__WEBPACK_IMPORTED_MODULE_0__["elements"].current1.textContent = '0';
-        _base__WEBPACK_IMPORTED_MODULE_0__["elements"].player0Panel.classList.toggle(_base__WEBPACK_IMPORTED_MODULE_0__["elements"].playerActive);
-        _base__WEBPACK_IMPORTED_MODULE_0__["elements"].player1Panel.classList.toggle(_base__WEBPACK_IMPORTED_MODULE_0__["elements"].playerActive);
-        _base__WEBPACK_IMPORTED_MODULE_0__["elements"].dice1.style.display = "none";
-        _base__WEBPACK_IMPORTED_MODULE_0__["elements"].dice2.style.display = "none";
-      }
+  }, {
+    key: "rollDice",
+    value: function rollDice(gamePlaying, roundScore, activePlayer) {
+      if (gamePlaying == true) {
+        // 1.Calculate random number
+        var dice1 = Math.floor(Math.random() * 6) + 1;
+        var dice2 = Math.floor(Math.random() * 6) + 1; // 2.Display Result
 
-      function init() {
-        scores = [0, 0];
-        activePlayer = 0;
-        roundScore = 0;
-        _base__WEBPACK_IMPORTED_MODULE_0__["elements"].dice1.style.display = "none";
-        _base__WEBPACK_IMPORTED_MODULE_0__["elements"].dice2.style.display = "none";
-        _base__WEBPACK_IMPORTED_MODULE_0__["elements"].score0.textContent = '0';
-        _base__WEBPACK_IMPORTED_MODULE_0__["elements"].score1.textContent = '0';
-        _base__WEBPACK_IMPORTED_MODULE_0__["elements"].current0.textContent = '0';
-        _base__WEBPACK_IMPORTED_MODULE_0__["elements"].current1.textContent = '0';
-        _base__WEBPACK_IMPORTED_MODULE_0__["elements"].name0.textContent = "Player 1";
-        _base__WEBPACK_IMPORTED_MODULE_0__["elements"].name1.textContent = "Player 2";
-        _base__WEBPACK_IMPORTED_MODULE_0__["elements"].player0Panel.classList.remove(_base__WEBPACK_IMPORTED_MODULE_0__["elements"].winner);
-        _base__WEBPACK_IMPORTED_MODULE_0__["elements"].player1Panel.classList.remove(_base__WEBPACK_IMPORTED_MODULE_0__["elements"].winnner);
-        _base__WEBPACK_IMPORTED_MODULE_0__["elements"].player0Panel.classList.remove(_base__WEBPACK_IMPORTED_MODULE_0__["elements"].playerActive);
-        _base__WEBPACK_IMPORTED_MODULE_0__["elements"].player0Panel.classList.add(_base__WEBPACK_IMPORTED_MODULE_0__["elements"].playerActive);
-        _base__WEBPACK_IMPORTED_MODULE_0__["elements"].player1Panel.classList.remove(_base__WEBPACK_IMPORTED_MODULE_0__["elements"].playerActive);
-        gamePlaying = true;
-      }
+        this.dice1.style.display = "block";
+        this.dice2.style.display = "block";
+        this.dice1.src = '../../assets/images/dice-' + dice1 + ".png";
+        this.dice2.src = '../../assets/images/dice-' + dice2 + ".png"; // 3.Update the round score if the rolled number was NOT a 1 and didn't repeat 6
 
-      function hold() {
-        if (gamePlaying == true) {
-          // Add CURRENT score to GLOBAL score.
-          scores[activePlayer] += roundScore; // Update the UI
-
-          document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
-          var winningScore;
-
-          if (winningScore) {
-            winningScore = input;
-          } else {
-            winningScore = 100;
-          } // Check if player won the game
-
-
-          if (scores[activePlayer] >= winningScore) {
-            document.querySelector('#name-' + activePlayer).textContent = "Winner";
-            _base__WEBPACK_IMPORTED_MODULE_0__["elements"].dice1.style.display = "none";
-            _base__WEBPACK_IMPORTED_MODULE_0__["elements"].dice2.style.display = "none";
-            document.querySelector('.player__' + activePlayer + '-panel').classList.add(_base__WEBPACK_IMPORTED_MODULE_0__["elements"].winnner);
-            document.querySelector('.player__' + activePlayer + '-panel').classList.remove(_base__WEBPACK_IMPORTED_MODULE_0__["elements"].playerActive);
-            gamePlaying = false;
-          } else {
-            nextPlayer();
-          }
+        if (dice1 !== 1 && dice2 !== 1) {
+          roundScore += dice1 + dice2;
+          document.querySelector('#current-' + activePlayer).textContent = roundScore;
+        } else {
+          //Next player
+          this.nextPlayer(activePlayer, roundScore);
         }
       }
+    } // Hold Button event listener
+
+  }, {
+    key: "holdButton",
+    value: function holdButton() {
+      if (gamePlaying == true) {
+        // Add CURRENT score to GLOBAL score.
+        scores[activePlayer] += roundScore; // Update the UI
+
+        document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
+        var winningScore;
+
+        if (winningScore) {
+          winningScore = input;
+        } else {
+          winningScore = 100;
+        } // Check if player won the game
+
+
+        if (scores[activePlayer] >= winningScore) {
+          document.querySelector('#name-' + activePlayer).textContent = "Winner";
+          _base__WEBPACK_IMPORTED_MODULE_0__["elements"].dice1.style.display = "none";
+          _base__WEBPACK_IMPORTED_MODULE_0__["elements"].dice2.style.display = "none";
+          document.querySelector('.player__' + activePlayer + '-panel').classList.add(_base__WEBPACK_IMPORTED_MODULE_0__["elements"].winnner);
+          document.querySelector('.player__' + activePlayer + '-panel').classList.remove(_base__WEBPACK_IMPORTED_MODULE_0__["elements"].playerActive);
+          gamePlaying = false;
+        } else {
+          nextPlayer();
+        }
+      }
+    } // Resets scores and starts a new game.
+
+  }, {
+    key: "initialize",
+    value: function initialize(scores, activePlayer, roundScore, gamePlaying) {
+      console.log("initalize");
+      scores = [0, 0];
+      activePlayer = 0;
+      roundScore = 0;
+      this.dice1.style.display = "none";
+      this.dice2.style.display = "none";
+      this.score0.textContent = '0';
+      this.score1.textContent = '0';
+      this.current0.textContent = '0';
+      this.current1.textContent = '0';
+      this.name0.textContent = "Player 1";
+      this.name1.textContent = "Player 2";
+      this.player0Panel.classList.remove(_base__WEBPACK_IMPORTED_MODULE_0__["elements"].winner);
+      this.player1Panel.classList.remove(_base__WEBPACK_IMPORTED_MODULE_0__["elements"].winnner);
+      this.player0Panel.classList.remove(_base__WEBPACK_IMPORTED_MODULE_0__["elements"].playerActive);
+      this.player0Panel.classList.add(_base__WEBPACK_IMPORTED_MODULE_0__["elements"].playerActive);
+      this.player1Panel.classList.remove(_base__WEBPACK_IMPORTED_MODULE_0__["elements"].playerActive);
+      gamePlaying = true;
+    } // Next player
+
+  }, {
+    key: "nextPlayer",
+    value: function nextPlayer(activePlayer, roundScore) {
+      activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+      roundScore = 0;
+      this.current0.textContent = '0';
+      this.current1.textContent = '0';
+      this.player0Panel.classList.toggle(_base__WEBPACK_IMPORTED_MODULE_0__["elements"].playerActive);
+      this.player1Panel.classList.toggle(_base__WEBPACK_IMPORTED_MODULE_0__["elements"].playerActive);
+      this.dice1.style.display = "none";
+      this.dice2.style.display = "none";
     }
   }]);
 
@@ -17128,6 +17170,125 @@ function () {
 }();
 
 /* harmony default export */ __webpack_exports__["default"] = (PigGame);
+/*
+ pigGame(){
+   let scores, roundScore, input, activePlayer, gamePlaying = true;
+   init();
+
+  
+   elements.buttonRoll.addEventListener('click', function(){
+     if(gamePlaying == true) {
+
+       // 1.Random Number
+       let dice1 = Math.floor(Math.random() * 6) + 1;
+       let dice2 = Math.floor(Math.random() * 6) + 1;
+       // 2.Display the Result
+       elements.dice1.style.display = "block";
+       elements.dice2.style.display = "block";
+  
+       elements.dice1.src = '/../Pig-Game/assets/images/dice-' + dice1 + ".png";
+       elements.dice2.src = '/../Pig-Game/assets/images/dice-' + dice2 + ".png";
+
+       // 3.Update the round score if the rolled nuber was NOT a 1 and didn't repeat 6
+       if (dice1 !== 1 && dice2 !== 1) {
+           //Add score
+           roundScore += dice1 + dice2;
+           ////////////////////////////////////////////////////////////////////////
+           // WHY IS THIS NOT WORKING but below works?
+           // (elements.current + activePlayer).textContent = roundScore;
+           document.querySelector('#current-' + activePlayer).textContent = roundScore;
+           
+           
+       } else {
+           //Next player
+           nextPlayer();
+       }
+     }     
+   });
+
+   // elements.buttonHold.addEventListener('click', hold)
+   
+   
+     
+
+   // elements.buttonNew.addEventListener('click', init);
+   
+   // document.querySelector(".button--submit").addEventListener('click', submit);
+
+   function nextPlayer(){
+     // Next Player
+         activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+         roundScore = 0;
+
+         elements.current0.textContent = '0';
+         elements.current1.textContent = '0';
+
+         elements.player0Panel.classList.toggle(elements.playerActive);
+         elements.player1Panel.classList.toggle(elements.playerActive);
+         
+         elements.dice1.style.display = "none";
+         elements.dice2.style.display = "none";
+   }
+
+   function init(){
+ 
+     scores = [0, 0];
+     activePlayer = 0;
+     roundScore = 0;
+
+     elements.dice1.style.display = "none";
+     elements.dice2.style.display = "none";
+
+   elements.score0.textContent = '0';
+   elements.score1.textContent = '0';
+   elements.current0.textContent = '0';
+   elements.current1.textContent = '0';
+   elements.name0.textContent = "Player 1";
+   elements.name1.textContent = "Player 2";
+   
+   elements.player0Panel.classList.remove(elements.winner);
+   elements.player1Panel.classList.remove(elements.winnner);
+   elements.player0Panel.classList.remove(elements.playerActive);
+   elements.player0Panel.classList.add(elements.playerActive);
+   elements.player1Panel.classList.remove(elements.playerActive);
+   gamePlaying = true;
+
+
+   }
+   function hold(){
+     if(gamePlaying == true){
+       // Add CURRENT score to GLOBAL score.
+       scores[activePlayer] += roundScore;
+
+       // Update the UI
+       document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
+   
+         
+         let winningScore;
+
+            if(winningScore){
+               winningScore = input;
+
+             }else{
+               winningScore = 100;
+             }
+       // Check if player won the game
+       if(scores[activePlayer] >= winningScore){
+         document.querySelector('#name-' + activePlayer).textContent = "Winner";
+         elements.dice1.style.display = "none";
+         elements.dice2.style.display = "none";
+         document.querySelector('.player__' + activePlayer + '-panel').classList.add(elements.winnner);
+         document.querySelector('.player__' + activePlayer + '-panel').classList.remove(elements.playerActive);
+
+         gamePlaying = false;
+       }else{
+       nextPlayer();
+       }
+     }    
+   }
+  
+ }
+*/
 
 /***/ }),
 /* 6 */
@@ -17140,8 +17301,6 @@ var elements = {
   buttonRoll: document.querySelector(".button--roll"),
   dice1: document.getElementById("dice-1"),
   dice2: document.getElementById("dice-2"),
-  // Look for current in Init function.
-  current: document.querySelector('#current-'),
   buttonHold: document.querySelector('.button--hold'),
   buttonNew: document.querySelector(".button--new"),
   current0: document.getElementById('current-0'),
@@ -17153,7 +17312,7 @@ var elements = {
   score1: document.getElementById('score-1'),
   name0: document.getElementById('name-0'),
   name1: document.getElementById('name-1'),
-  winnner: document.querySelector('winner'),
+  winner: document.querySelector('winner'),
   // Look in hold function
   score: document.querySelector('#score-'),
   // Look in hold function
