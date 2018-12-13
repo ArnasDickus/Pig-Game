@@ -16,50 +16,53 @@ import base, { elements } from "./base";
  
 
 class PigGame {
-  constructor(){
-    // Properties
-    this.buttonRoll   = elements.buttonRoll;
-    this.buttonHold   = elements.buttonHold;
-    this.buttonNew    = elements.buttonNew
-    this.dice1        = elements.dice1;
-    this.dice2        = elements.dice2;
-    this.current0     = elements.current0;
-    this.current1     = elements.current1;
-    this.player0Panel = elements.player0Panel;
-    this.player1Panel = elements.player1Panel;
-    this.playerActive = elements.playerActive;
-    this.score        = elements.score;
-    this.score0       = elements.score0;
-    this.score1       = elements.score1;
-    this.name         = elements.name;
-    this.name0        = elements.name0;
-    this.name1        = elements.name1;
-    this.winner       = elements.winner;
+  constructor(scores, roundScore, input, activePlayer, gamePlaying){
+    // Properties DOM Elements
+    this.buttonRoll     = elements.buttonRoll;
+    this.buttonHold     = elements.buttonHold;
+    this.buttonNew      = elements.buttonNew
+    this.dice1          = elements.dice1;
+    this.dice2          = elements.dice2;
+    this.current0       = elements.current0;
+    this.current1       = elements.current1;
+    this.player0Panel   = elements.player0Panel;
+    this.player1Panel   = elements.player1Panel;
+    this.playerActive   = elements.playerActive;
+    this.score          = elements.score;
+    this.score0         = elements.score0;
+    this.score1         = elements.score1;
+    this.name           = elements.name;
+    this.name0          = elements.name0;
+    this.name1          = elements.name1;
+    this.winner         = elements.winner;
 
-    
+    // Properties Variables
+    this.scores       =  scores;
+    this.roundScore   =  roundScore;
+    this.input        =  input;
+    this.activePlayer =  activePlayer;
+    this.gamePlaying  =  gamePlaying;
+
     // Methods
-    // this.buttonRoll.addEventListener('click', () => this.rollDice());
-    // this.buttonHold.addEventListener('click', () => this.holdButton());
-    // this.buttonNew.addEventListener('click', () => this.initialize());
-    // this.pigGame();
     this.initialize;
     this.events;
     this.nextPlayer
   }
   // All events happening  
   events(){
-    let scores, roundScore, input, activePlayer, gamePlaying = true;
+      
 
-    this.initialize(scores, activePlayer, roundScore, gamePlaying);
-    this.buttonRoll.addEventListener('click', () => this.rollDice(gamePlaying, roundScore, activePlayer));
+    this.initialize();
+
+    this.buttonRoll.addEventListener('click', () => this.rollDice());
     this.buttonHold.addEventListener('click', () => this.holdButton());
     this.buttonNew.addEventListener('click', () => this.initialize());
    
   }
   // Rolling dice Button event listener
-   rollDice(gamePlaying, roundScore, activePlayer){
+   rollDice(){
     
-    if(gamePlaying == true) {
+    if(this.gamePlaying == true) {
 
       // 1.Calculate random number
       let dice1 = Math.floor(Math.random() * 6) + 1;
@@ -74,12 +77,14 @@ class PigGame {
 
       // 3.Update the round score if the rolled number was NOT a 1 and didn't repeat 6
       if (dice1 !== 1 && dice2 !== 1) {
-          roundScore += dice1 + dice2;
-
-          document.querySelector('#current-' + activePlayer).textContent = roundScore;  
+          this.roundScore += dice1 + dice2;
+          console.log(this.roundScore);
+          document.querySelector('#current-' + this.activePlayer).textContent = this.roundScore; 
+          console.log(this.activePlayer); 
       } else {
           //Next player
-          this.nextPlayer(activePlayer, roundScore);
+          alert("Ooops you rolled two 1");
+          this.nextPlayer();
       }
     }   
      
@@ -87,41 +92,40 @@ class PigGame {
   }
   // Hold Button event listener
   holdButton(){
-    if(gamePlaying == true){
+    if(this.gamePlaying == true){
         // Add CURRENT score to GLOBAL score.
-        scores[activePlayer] += roundScore;
+        this.scores[this.activePlayer] += this.roundScore;
 
         // Update the UI
-        document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];  
+        document.querySelector('#score-' + this.activePlayer).textContent = this.scores[this.activePlayer];  
         let winningScore;
 
         if(winningScore){
-          winningScore = input;
+          winningScore = this.input;
 
         }else{
           winningScore = 100;
         }
         // Check if player won the game
-        if(scores[activePlayer] >= winningScore){
-          document.querySelector('#name-' + activePlayer).textContent = "Winner";
-          elements.dice1.style.display = "none";
-          elements.dice2.style.display = "none";
-          document.querySelector('.player__' + activePlayer + '-panel').classList.add(elements.winnner);
-          document.querySelector('.player__' + activePlayer + '-panel').classList.remove(elements.playerActive);
-
-          gamePlaying = false;
+        if(this.scores[this.activePlayer] >= this.winningScore){
+          document.querySelector('#name-' + this.activePlayer).textContent = "Winner";
+          this.dice1.style.display = "none";
+          this.dice2.style.display = "none";
+          document.querySelector('.player__' + this.activePlayer + '-panel').classList.add(this.winner);
+          document.querySelector('.player__' + this.activePlayer + '-panel').classList.remove(this.playerActive);
+          this.gamePlaying = false;
         }else{
-        nextPlayer();
+        this.nextPlayer();
       }
     }    
   }
 
   // Resets scores and starts a new game.
-  initialize(scores, activePlayer, roundScore, gamePlaying){
+  initialize(){
       console.log("initalize");
-      scores = [0, 0];
-      activePlayer = 0;
-      roundScore = 0;
+      this.scores = [0, 0];
+      this.activePlayer = 0;
+      this.roundScore = 0;
     
       this.dice1.style.display = "none";
       this.dice2.style.display = "none";
@@ -138,12 +142,14 @@ class PigGame {
       this.player0Panel.classList.remove(elements.playerActive);
       this.player0Panel.classList.add(elements.playerActive);
       this.player1Panel.classList.remove(elements.playerActive);
-      gamePlaying = true;
+      this.gamePlaying = true;
+
+      // this.buttonRoll.addEventListener('click', () => this.rollDice(gamePlaying, roundScore, activePlayer));
   }
   // Next player
-  nextPlayer(activePlayer, roundScore){
-    activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
-    roundScore = 0;
+  nextPlayer(){
+    this.activePlayer === 0 ? this.activePlayer = 1 : this.activePlayer = 0;
+    this.roundScore = 0;
 
     this.current0.textContent = '0';
     this.current1.textContent = '0';
@@ -158,127 +164,3 @@ class PigGame {
 }
 
 export default PigGame;
-
-
- /*
-  pigGame(){
-    let scores, roundScore, input, activePlayer, gamePlaying = true;
-    init();
-
-   
-    elements.buttonRoll.addEventListener('click', function(){
-      if(gamePlaying == true) {
-
-        // 1.Random Number
-        let dice1 = Math.floor(Math.random() * 6) + 1;
-        let dice2 = Math.floor(Math.random() * 6) + 1;
-        // 2.Display the Result
-        elements.dice1.style.display = "block";
-        elements.dice2.style.display = "block";
-   
-        elements.dice1.src = '/../Pig-Game/assets/images/dice-' + dice1 + ".png";
-        elements.dice2.src = '/../Pig-Game/assets/images/dice-' + dice2 + ".png";
-
-        // 3.Update the round score if the rolled nuber was NOT a 1 and didn't repeat 6
-        if (dice1 !== 1 && dice2 !== 1) {
-            //Add score
-            roundScore += dice1 + dice2;
-            ////////////////////////////////////////////////////////////////////////
-            // WHY IS THIS NOT WORKING but below works?
-            // (elements.current + activePlayer).textContent = roundScore;
-            document.querySelector('#current-' + activePlayer).textContent = roundScore;
-            
-            
-        } else {
-            //Next player
-            nextPlayer();
-        }
-      }     
-    });
-
-    // elements.buttonHold.addEventListener('click', hold)
-    
-    
-      
-
-    // elements.buttonNew.addEventListener('click', init);
-    
-    // document.querySelector(".button--submit").addEventListener('click', submit);
-
-    function nextPlayer(){
-      // Next Player
-          activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
-          roundScore = 0;
-
-          elements.current0.textContent = '0';
-          elements.current1.textContent = '0';
-
-          elements.player0Panel.classList.toggle(elements.playerActive);
-          elements.player1Panel.classList.toggle(elements.playerActive);
-          
-          elements.dice1.style.display = "none";
-          elements.dice2.style.display = "none";
-    }
-
-    function init(){
-  
-      scores = [0, 0];
-      activePlayer = 0;
-      roundScore = 0;
-
-      elements.dice1.style.display = "none";
-      elements.dice2.style.display = "none";
-
-    elements.score0.textContent = '0';
-    elements.score1.textContent = '0';
-    elements.current0.textContent = '0';
-    elements.current1.textContent = '0';
-    elements.name0.textContent = "Player 1";
-    elements.name1.textContent = "Player 2";
-    
-    elements.player0Panel.classList.remove(elements.winner);
-    elements.player1Panel.classList.remove(elements.winnner);
-    elements.player0Panel.classList.remove(elements.playerActive);
-    elements.player0Panel.classList.add(elements.playerActive);
-    elements.player1Panel.classList.remove(elements.playerActive);
-    gamePlaying = true;
-
-
-    }
-    function hold(){
-      if(gamePlaying == true){
-        // Add CURRENT score to GLOBAL score.
-        scores[activePlayer] += roundScore;
-
-        // Update the UI
-        document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
-    
-          
-          let winningScore;
-
-             if(winningScore){
-                winningScore = input;
-
-              }else{
-                winningScore = 100;
-              }
-        // Check if player won the game
-        if(scores[activePlayer] >= winningScore){
-          document.querySelector('#name-' + activePlayer).textContent = "Winner";
-          elements.dice1.style.display = "none";
-          elements.dice2.style.display = "none";
-          document.querySelector('.player__' + activePlayer + '-panel').classList.add(elements.winnner);
-          document.querySelector('.player__' + activePlayer + '-panel').classList.remove(elements.playerActive);
-
-          gamePlaying = false;
-        }else{
-        nextPlayer();
-        }
-      }    
-    }
-   
-  }
- */
-
-
-
