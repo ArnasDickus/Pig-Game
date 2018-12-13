@@ -8,7 +8,10 @@ import InstructionModal from "./views/InstructionModal";
 
 let pigGame = new PigGame;
 
-// pigGame.initialize();
 pigGame.events();
+
+
+
+
 let instructionModal = new InstructionModal();
 // Testing-comments
