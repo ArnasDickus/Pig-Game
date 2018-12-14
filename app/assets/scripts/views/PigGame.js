@@ -76,7 +76,9 @@ class PigGame {
       this.dice2.src = '../../assets/images/dice-' + dice2 + ".png";
 
       // 3.Update the round score if the rolled number was NOT a 1 and didn't repeat 6
+      // 
       if (dice1 !== 1 && dice2 !== 1) {
+
           this.roundScore += dice1 + dice2;
           document.querySelector('#current-' + this.activePlayer).textContent = this.roundScore; 
           
