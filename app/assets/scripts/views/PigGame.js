@@ -78,9 +78,8 @@ class PigGame {
       // 3.Update the round score if the rolled number was NOT a 1 and didn't repeat 6
       if (dice1 !== 1 && dice2 !== 1) {
           this.roundScore += dice1 + dice2;
-          console.log(this.roundScore);
           document.querySelector('#current-' + this.activePlayer).textContent = this.roundScore; 
-          console.log(this.activePlayer); 
+          
       } else {
           //Next player
           alert("Ooops you rolled two 1");
@@ -97,17 +96,10 @@ class PigGame {
         this.scores[this.activePlayer] += this.roundScore;
 
         // Update the UI
-        document.querySelector('#score-' + this.activePlayer).textContent = this.scores[this.activePlayer];  
-        let winningScore;
-
-        if(winningScore){
-          winningScore = this.input;
-
-        }else{
-          winningScore = 100;
-        }
+        document.querySelector('#score-' + this.activePlayer).textContent = this.scores[this.activePlayer];
+        
         // Check if player won the game
-        if(this.scores[this.activePlayer] >= this.winningScore){
+        if(this.scores[this.activePlayer] >= 100){
           document.querySelector('#name-' + this.activePlayer).textContent = "Winner";
           this.dice1.style.display = "none";
           this.dice2.style.display = "none";
@@ -122,7 +114,6 @@ class PigGame {
 
   // Resets scores and starts a new game.
   initialize(){
-      console.log("initalize");
       this.scores = [0, 0];
       this.activePlayer = 0;
       this.roundScore = 0;
@@ -137,14 +128,12 @@ class PigGame {
       this.name0.textContent = "Player 1";
       this.name1.textContent = "Player 2";
       
-      this.player0Panel.classList.remove(elements.winner);
-      this.player1Panel.classList.remove(elements.winnner);
-      this.player0Panel.classList.remove(elements.playerActive);
-      this.player0Panel.classList.add(elements.playerActive);
-      this.player1Panel.classList.remove(elements.playerActive);
+      this.player0Panel.classList.remove(this.winner);
+      this.player1Panel.classList.remove(this.winner);
+      this.player0Panel.classList.remove(this.playerActive);
+      this.player0Panel.classList.add(this.playerActive);
+      this.player1Panel.classList.remove(this.playerActive);
       this.gamePlaying = true;
-
-      // this.buttonRoll.addEventListener('click', () => this.rollDice(gamePlaying, roundScore, activePlayer));
   }
   // Next player
   nextPlayer(){
@@ -154,8 +143,8 @@ class PigGame {
     this.current0.textContent = '0';
     this.current1.textContent = '0';
 
-    this.player0Panel.classList.toggle(elements.playerActive);
-    this.player1Panel.classList.toggle(elements.playerActive);
+    this.player0Panel.classList.toggle(this.playerActive);
+    this.player1Panel.classList.toggle(this.playerActive);
     
     this.dice1.style.display = "none";
     this.dice2.style.display = "none";

@@ -102,8 +102,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var pigGame = new _views_PigGame_js__WEBPACK_IMPORTED_MODULE_2__["default"]();
+var instructionModal = new _views_InstructionModal__WEBPACK_IMPORTED_MODULE_3__["default"]();
 pigGame.events();
-var instructionModal = new _views_InstructionModal__WEBPACK_IMPORTED_MODULE_3__["default"](); // Testing-comments
+instructionModal.events(); // Testing-comments
 
 /***/ }),
 /* 1 */
@@ -17087,9 +17088,7 @@ function () {
 
         if (dice1 !== 1 && dice2 !== 1) {
           this.roundScore += dice1 + dice2;
-          console.log(this.roundScore);
           document.querySelector('#current-' + this.activePlayer).textContent = this.roundScore;
-          console.log(this.activePlayer);
         } else {
           //Next player
           alert("Ooops you rolled two 1");
@@ -17105,17 +17104,9 @@ function () {
         // Add CURRENT score to GLOBAL score.
         this.scores[this.activePlayer] += this.roundScore; // Update the UI
 
-        document.querySelector('#score-' + this.activePlayer).textContent = this.scores[this.activePlayer];
-        var winningScore;
+        document.querySelector('#score-' + this.activePlayer).textContent = this.scores[this.activePlayer]; // Check if player won the game
 
-        if (winningScore) {
-          winningScore = this.input;
-        } else {
-          winningScore = 100;
-        } // Check if player won the game
-
-
-        if (this.scores[this.activePlayer] >= this.winningScore) {
+        if (this.scores[this.activePlayer] >= 100) {
           document.querySelector('#name-' + this.activePlayer).textContent = "Winner";
           this.dice1.style.display = "none";
           this.dice2.style.display = "none";
@@ -17131,7 +17122,6 @@ function () {
   }, {
     key: "initialize",
     value: function initialize() {
-      console.log("initalize");
       this.scores = [0, 0];
       this.activePlayer = 0;
       this.roundScore = 0;
@@ -17143,12 +17133,12 @@ function () {
       this.current1.textContent = '0';
       this.name0.textContent = "Player 1";
       this.name1.textContent = "Player 2";
-      this.player0Panel.classList.remove(_base__WEBPACK_IMPORTED_MODULE_0__["elements"].winner);
-      this.player1Panel.classList.remove(_base__WEBPACK_IMPORTED_MODULE_0__["elements"].winnner);
-      this.player0Panel.classList.remove(_base__WEBPACK_IMPORTED_MODULE_0__["elements"].playerActive);
-      this.player0Panel.classList.add(_base__WEBPACK_IMPORTED_MODULE_0__["elements"].playerActive);
-      this.player1Panel.classList.remove(_base__WEBPACK_IMPORTED_MODULE_0__["elements"].playerActive);
-      this.gamePlaying = true; // this.buttonRoll.addEventListener('click', () => this.rollDice(gamePlaying, roundScore, activePlayer));
+      this.player0Panel.classList.remove(this.winner);
+      this.player1Panel.classList.remove(this.winner);
+      this.player0Panel.classList.remove(this.playerActive);
+      this.player0Panel.classList.add(this.playerActive);
+      this.player1Panel.classList.remove(this.playerActive);
+      this.gamePlaying = true;
     } // Next player
 
   }, {
@@ -17158,8 +17148,8 @@ function () {
       this.roundScore = 0;
       this.current0.textContent = '0';
       this.current1.textContent = '0';
-      this.player0Panel.classList.toggle(_base__WEBPACK_IMPORTED_MODULE_0__["elements"].playerActive);
-      this.player1Panel.classList.toggle(_base__WEBPACK_IMPORTED_MODULE_0__["elements"].playerActive);
+      this.player0Panel.classList.toggle(this.playerActive);
+      this.player1Panel.classList.toggle(this.playerActive);
       this.dice1.style.display = "none";
       this.dice2.style.display = "none";
     }
@@ -17177,6 +17167,8 @@ function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "elements", function() { return elements; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "instructionElements", function() { return instructionElements; });
+// DOM elements for PigGame
 var elements = {
   buttonRoll: document.querySelector(".button--roll"),
   dice1: document.getElementById("dice-1"),
@@ -17187,16 +17179,22 @@ var elements = {
   current1: document.getElementById('current-1'),
   player0Panel: document.querySelector('.player__0-panel'),
   player1Panel: document.querySelector('.player__1-panel'),
-  playerActive: document.querySelector('player--active'),
+  playerActive: document.querySelector('.player-active'),
   score0: document.getElementById('score-0'),
   score1: document.getElementById('score-1'),
   name0: document.getElementById('name-0'),
   name1: document.getElementById('name-1'),
-  winner: document.querySelector('winner'),
+  winner: document.querySelector('.winner'),
   // Look in hold function
   score: document.querySelector('#score-'),
   // Look in hold function
   name: document.querySelector('#name-')
+}; // DOM elements for InstructionModal
+
+var instructionElements = {
+  openInstructionModal: document.querySelector(".open-instruction-modal"),
+  instructionModal: document.querySelector(".instruction-modal"),
+  instructionModalCclsose: document.querySelector(".instruction-modal__close")
 };
 
 /***/ }),
@@ -17205,8 +17203,7 @@ var elements = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -17221,39 +17218,58 @@ function () {
   function InstructionModal() {
     _classCallCheck(this, InstructionModal);
 
-    this.openInstructionModal = jquery__WEBPACK_IMPORTED_MODULE_0___default()(".open-instruction-modal");
-    this.instructionModal = jquery__WEBPACK_IMPORTED_MODULE_0___default()(".instruction-modal");
-    this.instructionModalClose = jquery__WEBPACK_IMPORTED_MODULE_0___default()(".instruction-modal__close");
-    this.events();
-  }
+    // DOM Properties
+    this.openInstructionModal = _base__WEBPACK_IMPORTED_MODULE_0__["instructionElements"].openInstructionModal;
+    this.instructionModal = _base__WEBPACK_IMPORTED_MODULE_0__["instructionElements"].instructionModal;
+    this.instructionModalClose = _base__WEBPACK_IMPORTED_MODULE_0__["instructionElements"].instructionModalClose;
+    this.document = document.body; // Methods
+
+    this.events;
+    this.openModal;
+    this.closeModal;
+    this.keyPressHandler;
+  } // Order for function to happen.
+
 
   _createClass(InstructionModal, [{
     key: "events",
     value: function events() {
+      var _this = this;
+
       // Clicking the open Modal openModalButton
-      this.openInstructionModal.click(this.openModal.bind(this)); // Clicking the x close modal openModalButton
+      this.openInstructionModal.addEventListener('click', function () {
+        return _this.openModal();
+      }); // Clicking the x close modal openModalButton
 
-      this.instructionModalClose.click(this.closeModal.bind(this)); // pushes any key
+      this.instructionModal.addEventListener('click', function () {
+        return _this.closeModal();
+      }); // pushes any key
+      // $(document).keyup(this.keyPressHandler.bind(this));
 
-      jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).keyup(this.keyPressHandler.bind(this));
-    }
+      this.document.addEventListener('keyup', function () {
+        return _this.keyPressHandler(event);
+      });
+    } // Pushes any key to close  
+
   }, {
     key: "keyPressHandler",
-    value: function keyPressHandler(e) {
-      if (e.keyCode == 27) {
+    value: function keyPressHandler(event) {
+      if (event.which == 27) {
         this.closeModal();
       }
-    }
+    } // Open modal
+
   }, {
     key: "openModal",
     value: function openModal() {
-      this.instructionModal.addClass("instruction-modal--is-visible");
+      this.instructionModal.classList.add("instruction-modal--is-visible");
       return false;
-    }
+    } // Close modal
+
   }, {
     key: "closeModal",
     value: function closeModal() {
-      this.instructionModal.removeClass("instruction-modal--is-visible");
+      this.instructionModal.classList.remove("instruction-modal--is-visible");
     }
   }]);
 
