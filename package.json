@@ -10,16 +10,13 @@
     "@babel/core": "7.0.0",
     "@babel/preset-env": "7.0.0",
     "babel-loader": "8.0.1",
-    "bootstrap": "4.1.2",
     "gulp-htmlmin": "5.0.1",
     "gulp-strip-comments": "2.5.2",
     "install": "0.12.1",
-    "jquery": "3.3.1",
     "lazysizes": "4.0.1",
     "normalize.css": "7.0.0",
     "npm": "6.4.1",
     "picturefill": "3.0.2",
-    "popper.js": "1.14.4",
     "webpack": "4.17.1"
   },
   "devDependencies": {
