@@ -301,7 +301,7 @@ var elements = {
 var instructionElements = {
   openInstructionModal: document.querySelector(".open-instruction-modal"),
   instructionModal: document.querySelector(".instruction-modal"),
-  instructionModalCclsose: document.querySelector(".instruction-modal__close")
+  instructionModalClose: document.querySelector(".instruction-modal__close")
 };
 
 /***/ }),
