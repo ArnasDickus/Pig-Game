@@ -348,12 +348,11 @@ function () {
         return _this.openModal();
       }); // Clicking the x close modal openModalButton
 
-      this.instructionModal.addEventListener('click', function () {
+      this.instructionModalClose.addEventListener('click', function () {
         return _this.closeModal();
       }); // pushes any key
-      // $(document).keyup(this.keyPressHandler.bind(this));
 
-      this.document.addEventListener('keyup', function () {
+      this.document.addEventListener('keydown', function () {
         return _this.keyPressHandler(event);
       });
     } // Pushes any key to close  

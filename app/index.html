@@ -39,10 +39,10 @@
             </div>
         </div>
         
-        <button class="button button--new"><i class="ion-ios-plus-outline"></i>New game</button>
-        <button class="button button--roll"><i class="ion-ios-loop"></i>Roll dice</button>
-        <button class="button button--hold"><i class="ion-ios-download-outline"></i>Hold</button>
-        <button class = "button button--instructions open-instruction-modal"><i class = "ion-android-document"></i> Instructions</button>
+        <button class="button button--new button--intro"><i class="ion-ios-plus-outline"></i>New game</button>
+        <button class="button button--roll button--intro"><i class="ion-ios-loop"></i>Roll dice</button>
+        <button class="button button--hold button--intro"><i class="ion-ios-download-outline"></i>Hold</button>
+        <button class = "button button--instructions open-instruction-modal button--intro"><i class = "ion-android-document"></i> Instructions</button>
         <!-- <input class = "final-score" placeholder="Final Score" type="text"> -->
         
         <img src="" alt="Dice" class="dice dice--1" id = "dice-1">
@@ -61,7 +61,13 @@
                     <li><i class = "ion-android-list"></i>The player can choose to 'Hold', which means that his ROUND score gets added to his GLBAL score. After that, it's the next player's turn</li>
                     <li><i class = "ion-android-list"></i>The first player to reach 100 points on GLOBAL score wins the game</li>
                 </ul>
-                </p>                
+                <div class = "instruction-modal__score">
+                    <h3 class = "instruction-modal--pb">Enter Winning Score</h3>
+                    <input type="text" placeholder = "enter to change default score">
+                    <br>
+                    <button type="submit" class = "button button__submit">Submit</button>
+                    </p>                
+                </div>
             </div>
         </div>
         <div class="instruction-modal__close">X</div>
@@ -75,3 +81,14 @@
 
 </body>
 </html>
+
+<!-- Adding manual score
+1) Inputs enter winning score press enter
+    event listener for the enter.
+
+2) Compare to if{
+    new winning score = winning score
+    else
+    winning score
+}
+ -->

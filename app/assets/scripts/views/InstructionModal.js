@@ -25,12 +25,10 @@ class InstructionModal{
        this.openInstructionModal.addEventListener('click', () => this.openModal());
        
         // Clicking the x close modal openModalButton
-        this.instructionModal.addEventListener('click', () => this.closeModal());
+        this.instructionModalClose.addEventListener('click', () => this.closeModal());
 
         // pushes any key
-        // $(document).keyup(this.keyPressHandler.bind(this));
-        this.document.addEventListener('keyup', () => this.keyPressHandler(event));
-        
+        this.document.addEventListener('keydown', () => this.keyPressHandler(event));
     }
     // Pushes any key to close  
     keyPressHandler(event){
