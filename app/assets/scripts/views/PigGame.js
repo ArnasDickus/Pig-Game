@@ -74,8 +74,8 @@ class PigGame {
       // 2.Display Result
       this.dice1.style.display = "block";
       this.dice2.style.display = "block";
-      this.dice1.src = 'app/assets/images/dice-' + dice1 + ".png";
-      this.dice2.src = 'app/assets/images/dice-' + dice2 + ".png";
+      this.dice1.src = 'assets/images/dice-' + dice1 + ".png";
+      this.dice2.src = 'assets/images/dice-' + dice2 + ".png";
 
       // 3.Update the round score if the rolled number was NOT a 1 and didn't repeat 6
       // 
