@@ -18,23 +18,26 @@ import base, { elements } from "./base";
 class PigGame {
   constructor(scores, roundScore, input, activePlayer, gamePlaying){
     // Properties DOM Elements
-    this.buttonRoll     = elements.buttonRoll;
-    this.buttonHold     = elements.buttonHold;
-    this.buttonNew      = elements.buttonNew
-    this.dice1          = elements.dice1;
-    this.dice2          = elements.dice2;
-    this.current0       = elements.current0;
-    this.current1       = elements.current1;
-    this.player0Panel   = elements.player0Panel;
-    this.player1Panel   = elements.player1Panel;
-    this.playerActive   = elements.playerActive;
-    this.score          = elements.score;
-    this.score0         = elements.score0;
-    this.score1         = elements.score1;
-    this.name           = elements.name;
-    this.name0          = elements.name0;
-    this.name1          = elements.name1;
-    this.winner         = elements.winner;
+    this.buttonRoll       = elements.buttonRoll;
+    this.buttonHold       = elements.buttonHold;
+    this.buttonNew        = elements.buttonNew
+    this.dice1            = elements.dice1;
+    this.dice2            = elements.dice2;
+    this.current0         = elements.current0;
+    this.current1         = elements.current1;
+    this.player0Panel     = elements.player0Panel;
+    this.player1Panel      = elements.player1Panel;
+    this.playerActive     = elements.playerActive;
+    this.score            = elements.score;
+    this.score0           = elements.score0;
+    this.score1           = elements.score1;
+    this.name             = elements.name;
+    this.name0            = elements.name0;
+    this.name1            = elements.name1;
+    this.winner           = elements.winner; 
+    this.changeScoreForm  = elements.changeScoreForm;
+    this.defaultScore     = elements.defaultScore;
+    this.currentScore     = elements.currentScore;
 
     // Properties Variables
     this.scores       =  scores;
@@ -46,17 +49,19 @@ class PigGame {
     // Methods
     this.initialize;
     this.events;
-    this.nextPlayer
+    this.nextPlayer;
+    this.changeScore;
   }
   // All events happening  
   events(){
       
-
+    
     this.initialize();
-
+    this.changeScoreForm.addEventListener('submit', event => this.changeScore(event));
     this.buttonRoll.addEventListener('click', () => this.rollDice());
     this.buttonHold.addEventListener('click', () => this.holdButton());
     this.buttonNew.addEventListener('click', () => this.initialize());
+    
    
   }
   // Rolling dice Button event listener
@@ -71,7 +76,6 @@ class PigGame {
       // 2.Display Result
       this.dice1.style.display = "block";
       this.dice2.style.display = "block";
-  
       this.dice1.src = 'assets/images/dice-' + dice1 + ".png";
       this.dice2.src = 'assets/images/dice-' + dice2 + ".png";
 
@@ -97,11 +101,15 @@ class PigGame {
         // Add CURRENT score to GLOBAL score.
         this.scores[this.activePlayer] += this.roundScore;
 
+        // Custom Score
+        if(this.defaultScore.value == ""){
+          this.defaultScore.value = 100;
+        }
         // Update the UI
         document.querySelector('#score-' + this.activePlayer).textContent = this.scores[this.activePlayer];
         
         // Check if player won the game
-        if(this.scores[this.activePlayer] >= 100){
+        if(this.scores[this.activePlayer] >= this.defaultScore.value){
           document.querySelector('#name-' + this.activePlayer).textContent = "Winner";
           this.dice1.style.display = "none";
           this.dice2.style.display = "none";
@@ -136,6 +144,8 @@ class PigGame {
       this.player0Panel.classList.add(this.playerActive);
       this.player1Panel.classList.remove(this.playerActive);
       this.gamePlaying = true;
+
+      
   }
   // Next player
   nextPlayer(){
@@ -150,6 +160,11 @@ class PigGame {
     
     this.dice1.style.display = "none";
     this.dice2.style.display = "none";
+  }
+  // Let's user manually change winning scores
+  changeScore(event){
+    event.preventDefault();
+    this.currentScore.innerHTML = `${this.defaultScore.value}`
   }
 
 }

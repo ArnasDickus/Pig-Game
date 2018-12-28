@@ -39,6 +39,7 @@
     }
   }
   &__title{
+      padding-top: 2.5rem;
       text-align: center;
       text-transform: uppercase;
   }

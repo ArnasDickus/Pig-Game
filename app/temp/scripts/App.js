@@ -148,7 +148,10 @@ function () {
     this.name = _base__WEBPACK_IMPORTED_MODULE_0__["elements"].name;
     this.name0 = _base__WEBPACK_IMPORTED_MODULE_0__["elements"].name0;
     this.name1 = _base__WEBPACK_IMPORTED_MODULE_0__["elements"].name1;
-    this.winner = _base__WEBPACK_IMPORTED_MODULE_0__["elements"].winner; // Properties Variables
+    this.winner = _base__WEBPACK_IMPORTED_MODULE_0__["elements"].winner;
+    this.changeScoreForm = _base__WEBPACK_IMPORTED_MODULE_0__["elements"].changeScoreForm;
+    this.defaultScore = _base__WEBPACK_IMPORTED_MODULE_0__["elements"].defaultScore;
+    this.currentScore = _base__WEBPACK_IMPORTED_MODULE_0__["elements"].currentScore; // Properties Variables
 
     this.scores = scores;
     this.roundScore = roundScore;
@@ -159,6 +162,7 @@ function () {
     this.initialize;
     this.events;
     this.nextPlayer;
+    this.changeScore;
   } // All events happening  
 
 
@@ -168,6 +172,9 @@ function () {
       var _this = this;
 
       this.initialize();
+      this.changeScoreForm.addEventListener('submit', function (event) {
+        return _this.changeScore(event);
+      });
       this.buttonRoll.addEventListener('click', function () {
         return _this.rollDice();
       });
@@ -209,11 +216,16 @@ function () {
     value: function holdButton() {
       if (this.gamePlaying == true) {
         // Add CURRENT score to GLOBAL score.
-        this.scores[this.activePlayer] += this.roundScore; // Update the UI
+        this.scores[this.activePlayer] += this.roundScore; // Custom Score
+
+        if (this.defaultScore.value == "") {
+          this.defaultScore.value = 100;
+        } // Update the UI
+
 
         document.querySelector('#score-' + this.activePlayer).textContent = this.scores[this.activePlayer]; // Check if player won the game
 
-        if (this.scores[this.activePlayer] >= 100) {
+        if (this.scores[this.activePlayer] >= this.defaultScore.value) {
           document.querySelector('#name-' + this.activePlayer).textContent = "Winner";
           this.dice1.style.display = "none";
           this.dice2.style.display = "none";
@@ -259,6 +271,13 @@ function () {
       this.player1Panel.classList.toggle(this.playerActive);
       this.dice1.style.display = "none";
       this.dice2.style.display = "none";
+    } // Let's user manually change winning scores
+
+  }, {
+    key: "changeScore",
+    value: function changeScore(event) {
+      event.preventDefault();
+      this.currentScore.innerHTML = "".concat(this.defaultScore.value);
     }
   }]);
 
@@ -295,7 +314,10 @@ var elements = {
   // Look in hold function
   score: document.querySelector('#score-'),
   // Look in hold function
-  name: document.querySelector('#name-')
+  name: document.querySelector('#name-'),
+  changeScoreForm: document.querySelector('.changeScoreForm'),
+  defaultScore: document.getElementById('defaultScore'),
+  currentScore: document.getElementById('currentScore')
 }; // DOM elements for InstructionModal
 
 var instructionElements = {

@@ -674,6 +674,13 @@ Instead edit gulp/templates/sprite */
 .button__submit{
     margin-top: 40px;
     margin-bottom: 40px;
+    /* background-color: #4CAF50; */
+    background-color: #008CBA; 
+    color: #000;
+    font-weight: 500;
+   
+    padding: 20px;
+    border-radius: 5px;
     }
 
 .button:hover{
@@ -783,6 +790,7 @@ Instead edit gulp/templates/sprite */
     }
 
 .instruction-modal__title{
+      padding-top: 2.5rem;
       text-align: center;
       text-transform: uppercase;
   }

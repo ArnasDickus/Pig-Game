@@ -58,15 +58,19 @@
                     <li> <i class = "ion-android-list"></i> The game has 2 players, playing in rounds</li>
                     <li><i class = "ion-android-list"></i>In each turn, a player rolls a dice as many times as he whishes. Each result get added to his ROUND score</li>
                     <li><i class = "ion-android-list"></i>BUT, if the player rolls a 1, all his ROUND score gets lost. After that, it's the next player's turn</li>
-                    <li><i class = "ion-android-list"></i>The player can choose to 'Hold', which means that his ROUND score gets added to his GLBAL score. After that, it's the next player's turn</li>
+                    <li><i class = "ion-android-list"></i>The player can choose to 'Hold', which means that his ROUND score gets added to his GLBAL score. 
+                    After that, it's the next player's turn</li>
                     <li><i class = "ion-android-list"></i>The first player to reach 100 points on GLOBAL score wins the game</li>
                 </ul>
                 <div class = "instruction-modal__score">
-                    <h3 class = "instruction-modal--pb">Enter Winning Score</h3>
-                    <input type="text" placeholder = "enter to change default score">
-                    <br>
-                    <button type="submit" class = "button button__submit">Submit</button>
-                    </p>                
+                    <form class = "changeScoreForm">
+                        <h3>Win condition get: <span id = "currentScore">100</span> points</h3>
+                        <h3 class = "instruction-modal--pb">Change win condition scores. </h3>
+                        <input id = "defaultScore" type="text" placeholder = "enter to change default score">
+                        <br>
+                        <button type="submit" class = "button button__submit">Submit</button>
+                        </p>             
+                    </form>   
                 </div>
             </div>
         </div>
