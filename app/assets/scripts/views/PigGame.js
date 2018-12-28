@@ -26,8 +26,7 @@ class PigGame {
     this.current0         = elements.current0;
     this.current1         = elements.current1;
     this.player0Panel     = elements.player0Panel;
-    this.player1Panel      = elements.player1Panel;
-    this.playerActive     = elements.playerActive;
+    this.player1Panel     = elements.player1Panel;
     this.score            = elements.score;
     this.score0           = elements.score0;
     this.score1           = elements.score1;
@@ -54,7 +53,6 @@ class PigGame {
   }
   // All events happening  
   events(){
-      
     
     this.initialize();
     this.changeScoreForm.addEventListener('submit', event => this.changeScore(event));
@@ -65,7 +63,7 @@ class PigGame {
    
   }
   // Rolling dice Button event listener
-   rollDice(){
+  rollDice(){
     
     if(this.gamePlaying == true) {
 
@@ -140,9 +138,10 @@ class PigGame {
       
       this.player0Panel.classList.remove(this.winner);
       this.player1Panel.classList.remove(this.winner);
-      this.player0Panel.classList.remove(this.playerActive);
-      this.player0Panel.classList.add(this.playerActive);
-      this.player1Panel.classList.remove(this.playerActive);
+
+      this.player0Panel.classList.remove('player--active');
+      this.player0Panel.classList.add('player--active');
+      this.player1Panel.classList.remove('player--active');
       this.gamePlaying = true;
 
       
@@ -155,8 +154,8 @@ class PigGame {
     this.current0.textContent = '0';
     this.current1.textContent = '0';
 
-    this.player0Panel.classList.toggle(this.playerActive);
-    this.player1Panel.classList.toggle(this.playerActive);
+    this.player0Panel.classList.toggle('player--active');
+    this.player1Panel.classList.toggle('player--active');
     
     this.dice1.style.display = "none";
     this.dice2.style.display = "none";
@@ -164,7 +163,7 @@ class PigGame {
   // Let's user manually change winning scores
   changeScore(event){
     event.preventDefault();
-    this.currentScore.innerHTML = `${this.defaultScore.value}`
+    this.currentScore.innerHTML = `${this.defaultScore.value}`;
   }
 
 }

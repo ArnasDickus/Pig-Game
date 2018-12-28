@@ -141,7 +141,6 @@ function () {
     this.current1 = _base__WEBPACK_IMPORTED_MODULE_0__["elements"].current1;
     this.player0Panel = _base__WEBPACK_IMPORTED_MODULE_0__["elements"].player0Panel;
     this.player1Panel = _base__WEBPACK_IMPORTED_MODULE_0__["elements"].player1Panel;
-    this.playerActive = _base__WEBPACK_IMPORTED_MODULE_0__["elements"].playerActive;
     this.score = _base__WEBPACK_IMPORTED_MODULE_0__["elements"].score;
     this.score0 = _base__WEBPACK_IMPORTED_MODULE_0__["elements"].score0;
     this.score1 = _base__WEBPACK_IMPORTED_MODULE_0__["elements"].score1;
@@ -254,9 +253,9 @@ function () {
       this.name1.textContent = "Player 2";
       this.player0Panel.classList.remove(this.winner);
       this.player1Panel.classList.remove(this.winner);
-      this.player0Panel.classList.remove(this.playerActive);
-      this.player0Panel.classList.add(this.playerActive);
-      this.player1Panel.classList.remove(this.playerActive);
+      this.player0Panel.classList.remove('player--active');
+      this.player0Panel.classList.add('player--active');
+      this.player1Panel.classList.remove('player--active');
       this.gamePlaying = true;
     } // Next player
 
@@ -267,8 +266,8 @@ function () {
       this.roundScore = 0;
       this.current0.textContent = '0';
       this.current1.textContent = '0';
-      this.player0Panel.classList.toggle(this.playerActive);
-      this.player1Panel.classList.toggle(this.playerActive);
+      this.player0Panel.classList.toggle('player--active');
+      this.player1Panel.classList.toggle('player--active');
       this.dice1.style.display = "none";
       this.dice2.style.display = "none";
     } // Let's user manually change winning scores
@@ -305,7 +304,6 @@ var elements = {
   current1: document.getElementById('current-1'),
   player0Panel: document.querySelector('.player__0-panel'),
   player1Panel: document.querySelector('.player__1-panel'),
-  playerActive: document.querySelector('.player-active'),
   score0: document.getElementById('score-0'),
   score1: document.getElementById('score-1'),
   name0: document.getElementById('name-0'),
